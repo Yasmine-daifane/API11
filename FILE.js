@@ -33,20 +33,33 @@ function modaldata(e) {
 }
 
 function fillmodel(data) {
-  output = "";
-  output += `
+  output = `
   <div class="modal-body">
 <img src="${data.strMealThumb}" class="modal-img img-fluid">
-<h5 class="modal-title" id="exampleModalLabel">${data.strMeal}</h5>
-<p class="modal-category"> Category : ${data.strCategory}</p>
-<p class="modal-region">  Area : ${data.strArea} </p>
-<pre class="ingrédient"></pre>
-<p  class="preparation">${data.strInstructions}</p>
-<a id="video"  href="${data.strYoutube}" target="_blank">video</a>
+<h3 class="modal-title" id="exampleModalLabel">${data.strMeal}</h3><br>
+<h4>  Category :</h4>
+<p  class="modal-category">${data.strCategory}</p>
+<h4>  Area :</h4>
+<p  class="modal-region">${data.strArea} </p>
+<h4>  Ingredients :</h4>
+
 </div>
 `;
-  document.getElementById("modal").innerHTML = output;
+  let i=1;
+  do { 
+    output +=  ` <P>  ${data["strIngredient" + i]}  : ${data["strMeasure" + i]} </P>`;
+    i++
+
+  } while ( data["strIngredient" + i] !== null &&
+      data["strIngredient" + i] !== "" &&
+      data["strIngredient" + i] !== " ");
+      output+= `<h4> Preparation :</h4> 
+      <p   class="modal-region">  ${data.strInstructions} </p>`
+      output +=  ` <a id="video"  href="${data.strYoutube}" target="_blank"
+      class="btn btn-lg btn-outline-danger fw-bold">Recipes Tuto </a>`;
+      document.getElementById("modal").innerHTML = output;
 }
+  
 
 const maxecards = 6;
 
@@ -97,10 +110,7 @@ function btnpagination(arayvalues) {
   }
 }
 function displayPage(pagenumber, arayvalues) {
-  // Clear the current page
-
   cards.innerHTML = "";
-
   const page = allpages(arayvalues)[pagenumber];
   for (const data of page) {
     creatcards(data);

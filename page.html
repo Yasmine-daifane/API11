@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> THE BESTE RECIPES </title>
+  <title> THE BESTE RECIPES</title>
   <!-- font for recipes  -->
   <link
     href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600&family=Laila:wght@300;400;700&family=Luckiest+Guy&family=Shrikhand&display=swap"
@@ -33,9 +33,12 @@
 </head>
 
 <body>
+  <!-- the nave  that contains the  serch input ,btn , logo , and the action to second page -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" id="logo">F<span>oo</span>dies</a>
+      <!-- logo foodies -->
+      <a class="navbar-brand" id="logo">F <span>oo</span>dies
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -43,22 +46,25 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item ">
+            <!-- the second page action  -->
             <a class="nav-link active" aria-current="page" href="details.html">MORE DETAILS ABOUT THE RECIPES</a>
           </li>
         </ul>
+        <!-- partie of serch  -->
         <form class="d-flex">
+          <!-- search button  -->
           <input class="form-control me-2" type="search" id="serchinput" placeholder="Search">
-          <button class="btn btn-outline-danger" id="searchbtn" type="submit">Search <i
-              class="fa fa-heart-o"></i></button>
+          <button class="btn btn-outline-danger" id="searchbtn" type="submit">Search
+            <i class="fa fa-heart-o"></i>
+          </button>
         </form>
       </div>
     </div>
   </nav>
-
+  <!-- cardsdisplay strecture  -->
   <div id="allcards" class="d-flex flex-wrap justify-content-center gap-5 mt-5">
-    <!-- strecture od the card  -->
     <!-- <div class="card  " style="width: 20rem;">
-        <img src="Travel banner - Fait avec PosterMyWall.jpg" class="card-img-top" alt="...">
+       <img src="/test.img/Travel banner - Fait avec PosterMyWall.jpg" class="card-img-top" alt="..."> 
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
           <p class="card-text  ">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -66,68 +72,25 @@
         </div> 
       </div> -->
   </div>
-
   <!--  modal -->
   <center>
-    <div class="modal fade " id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-      aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade  modal-dialog-scrollable " id="exampleModal" data-bs-backdrop="static"
+      data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div id="modal" class="modal-body ">
-          </div>
+          <div id="modal" class="modal-body "></div>
         </div>
       </div>
     </div>
   </center>
-
+  <!-- the footer contain pagination btn crat in js  -->
   <footer aria-label="Page navigation">
-
     <ul class="pagination  justify-content-center mt-5" id="pagin-num"></ul>
-
     </ul>
   </footer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-//   the automat card
+//   the list of the  select input catgories and region  
 
 window.addEventListener("DOMContentLoaded", async function () {
   let allcategory = [];
@@ -103,35 +103,42 @@ function modaldata(e) {
 }
 
 function fillmodel(data) {
-  output = "";
-  output += `
+  output = `
   <div class="modal-body">
 <img src="${data.strMealThumb}" class="modal-img img-fluid">
-<h5 class="modal-title" id="exampleModalLabel">${data.strMeal}</h5>
-<p class="modal-category"> Category : ${data.strCategory}</p>
-<p class="modal-region">  Area : ${data.strArea} </p>
-<pre class="ingrédient"></pre>
-<p  class="preparation">${data.strInstructions}</p>
-<a id="video"  href="${data.strYoutube}" target="_blank">video</a>
+<h3 class="modal-title" id="exampleModalLabel">${data.strMeal}</h3><br>
+<h4>  Category :</h4>
+<p  class="modal-category">${data.strCategory}</p>
+<h4>  Area :</h4>
+<p  class="modal-region">${data.strArea} </p>
+<h4>  Ingredients :</h4>
+
 </div>
 `;
+  let i = 1;
+  do {
+    output += ` <P>  ${data["strIngredient" + i]}  : ${data["strMeasure" + i]} </P>`;
+    i++
+
+  } while (data["strIngredient" + i] !== null &&
+  data["strIngredient" + i] !== "" &&
+    data["strIngredient" + i] !== " ");
+  output += `<h4> Preparation :</h4> 
+      <p   class="modal-region">  ${data.strInstructions} </p>`
+  output += ` <a id="video"  href="${data.strYoutube}" target="_blank"
+      class="btn btn-lg btn-outline-danger fw-bold">Recipes Tuto </a>`;
   document.getElementById("modal").innerHTML = output;
 }
-
-
-
-
-
-
-
-
+//  4 pagination  functions -------------------------------------------> 
+// the max cards that alow to display in html page 
 const maxecards = 6;
-
+// this function contain a method thet retur the number of pages dicimale 
 function pagenumber(arayvalues) {
   const pagenumber = Math.ceil(arayvalues.length / maxecards);
   return pagenumber;
 }
 
+// this function is the araay that contain the slices arays
 function allpages(arayvalues) {
   const allpages = [];
   for (let i = 0; i < pagenumber(arayvalues); i++) {
@@ -139,9 +146,9 @@ function allpages(arayvalues) {
   }
   return allpages;
 }
-
+//  creation the button for pagination 1,2...
 function btnpagination(arayvalues) {
-  let footer = document.getElementById("pagin-num");
+  let footer = document.getElementById("pagin1-num");
   footer.innerHTML = "";
   for (let i = 0; i < pagenumber(arayvalues); i++) {
     const li = document.createElement("li");
@@ -162,10 +169,8 @@ function btnpagination(arayvalues) {
     footer.appendChild(li);
   }
 }
-
+// the display cards  in html 
 function displayPage(pagenumber, arayvalues) {
-  // Clear the current page
-
   cards.innerHTML = "";
 
   const page = allpages(arayvalues)[pagenumber];
@@ -174,7 +179,6 @@ function displayPage(pagenumber, arayvalues) {
   }
 }
 
-// www.themealdb.com/api/json/v1/1/list.php?c=list
 
 async function showalldata() {
   let strallcategory = [];
@@ -187,9 +191,7 @@ async function showalldata() {
   data.meals.forEach((meal) => {
     strallcategory.push(meal.strCategory);
   });
-  // www.themealdb.com/api/json/v1/1/filter.php?c=Seafood
 
-  // console.log(strallcategory);
   let allcategoryid = [];
   for (let i = 0; i < strallcategory.length; i++) {
     const responsid = await fetch(
@@ -201,17 +203,15 @@ async function showalldata() {
     });
   }
 
-  // console.log(allcategoryid);
 
-  // www.themealdb.com/api/json/v1/1/lookup.php?i=52772
 
-  let output=[]
+  let output = []
   for (let i = 0; i < allcategoryid.length; i++) {
-    const resultid = await fetch (`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${allcategoryid[i]}`)
-     let data =await resultid.json()
-     data.meals.forEach((meal)=> {
+    const resultid = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${allcategoryid[i]}`)
+    let data = await resultid.json()
+    data.meals.forEach((meal) => {
       output.push(meal)
-     })
+    })
   }
   allpages(output);
   btnpagination(output);
@@ -219,112 +219,88 @@ async function showalldata() {
 
 }
 
-async function allcategory () {
-    
-     let everycategory =[]
-     const list= await fetch (`https://www.themealdb.com/api/json/v1/1/list.php?c=list`)
-      let data = await list.json()
-      data.meals.forEach((meal)=>{
-        everycategory.push(meal.strCategory)
+async function allcategory() {
 
-      })
-      let allcategoryid = [];
-      for (let i = 0; i < everycategory.length; i++) {
-        const responsid = await fetch(
-          `https://themealdb.com/api/json/v1/1/filter.php?c=${everycategory[i]}`
-        );
-        let data = await responsid.json();
-        data.meals.forEach((meal) => {
-          allcategoryid.push(meal.idMeal);
-        });
-      }
-      let areaID = []
-      let fetcharea = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${selectA.value}`)
-      let arearespos = await fetcharea.json()
-      arearespos.meals.forEach((meal)=> {
-        areaID.push(meal.idMeal)
-      })
-      let match = areaID.filter(function (e) {
-        return allcategoryid.indexOf(e) > -1;
-      })
-      let result = []
-      for (let i = 0; i < match.length; i++) {
-        let fetchid = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${match[i]}`)
-        idrespons = await fetchid.json()  
-        idrespons.meals.forEach((meal)=> {
-          result.push(meal)
-        }) 
-      }
-      allpages(result);
-      btnpagination(result);
-      displayPage(0, result);
+  let everycategory = []
+  const list = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?c=list`)
+  let data = await list.json()
+  data.meals.forEach((meal) => {
+    everycategory.push(meal.strCategory)
+
+  })
+  let allcategoryid = [];
+  for (let i = 0; i < everycategory.length; i++) {
+    const responsid = await fetch(
+      `https://themealdb.com/api/json/v1/1/filter.php?c=${everycategory[i]}`
+    );
+    let data = await responsid.json();
+    data.meals.forEach((meal) => {
+      allcategoryid.push(meal.idMeal);
+    });
+  }
+  let areaID = []
+  let fetcharea = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${selectA.value}`)
+  let arearespos = await fetcharea.json()
+  arearespos.meals.forEach((meal) => {
+    areaID.push(meal.idMeal)
+  })
+  let match = areaID.filter(function (e) {
+    return allcategoryid.indexOf(e) > -1;
+  })
+  let result = []
+  for (let i = 0; i < match.length; i++) {
+    let fetchid = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${match[i]}`)
+    idrespons = await fetchid.json()
+    idrespons.meals.forEach((meal) => {
+      result.push(meal)
+    })
+  }
+  allpages(result);
+  btnpagination(result);
+  displayPage(0, result);
 }
 
+async function allAreas() {
+  let everyarea = []
 
-
-
-
-async function allAreas () {
-  let everyarea =[]
-
-  const list= await fetch (`https://www.themealdb.com/api/json/v1/1/list.php?a=list`)
-   let data = await list.json()
-   data.meals.forEach((meal)=>{
-     everyarea.push(meal.strArea)
-   })
-   let allareaid = [];
-   for (let i = 0; i < everyarea.length; i++) {
-     const responsid = await fetch(
-       `https://www.themealdb.com/api/json/v1/1/filter.php?a=${everyarea[i]}`
-     );
-     let data = await responsid.json();
-     data.meals.forEach((meal) => {
-       allareaid.push(meal.idMeal);
-     });
-   }
-   let categoryID = []
-   let fetcharea = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${select.value}`)
-   let arearespos = await fetcharea.json()
-   arearespos.meals.forEach((meal)=> {
+  const list = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?a=list`)
+  let data = await list.json()
+  data.meals.forEach((meal) => {
+    everyarea.push(meal.strArea)
+  })
+  let allareaid = [];
+  for (let i = 0; i < everyarea.length; i++) {
+    const responsid = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?a=${everyarea[i]}`
+    );
+    let data = await responsid.json();
+    data.meals.forEach((meal) => {
+      allareaid.push(meal.idMeal);
+    });
+  }
+  let categoryID = []
+  let fetcharea = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${select.value}`)
+  let arearespos = await fetcharea.json()
+  arearespos.meals.forEach((meal) => {
     categoryID.push(meal.idMeal)
-   })
-   let match = categoryID.filter(function (e) {
-     return allareaid.indexOf(e) > -1;
-   })
-   let result = []
-   for (let i = 0; i < match.length; i++) {
-     let fetchid = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${match[i]}`)
-     idrespons = await fetchid.json()  
-     idrespons.meals.forEach((meal)=> {
-       result.push(meal)
-     }) 
-   }
-   allpages(result);
-   btnpagination(result);
-   displayPage(0, result);
+  })
+  let match = categoryID.filter(function (e) {
+    return allareaid.indexOf(e) > -1;
+  })
+  let result = []
+  for (let i = 0; i < match.length; i++) {
+    let fetchid = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${match[i]}`)
+    idrespons = await fetchid.json()
+    idrespons.meals.forEach((meal) => {
+      result.push(meal)
+    })
+  }
+  allpages(result);
+  btnpagination(result);
+  displayPage(0, result);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-async function selected (){
+async function selected() {
 
   let catid = [];
   let areaid = [];
@@ -352,7 +328,7 @@ async function selected (){
     );
     const response = await idfitch.json();
     result.push(response.meals[0]);
-  } if (result.lengt= 0 ) {
+  } if (result.lengt = 0) {
     cards.innerHTML = "";
     cards.innerHTML = `<p class="text-danger display-5 text-center" >
 	   SORRY ,THIS RECIPE IS NOT FOUND CAN YOU SEARSH FOR SOMETHINGS ELSE 
@@ -365,15 +341,6 @@ async function selected (){
 
 }
 
-
-
-
-
-
-
-
-
-
 let selectA = document.getElementById("selectArea");
 let select = document.getElementById("selectCategory");
 
@@ -383,12 +350,12 @@ filtratiobtn.addEventListener("click", function () {
     showalldata();
   }
 
-else if (selectA.value != "allarea" && select.value == "allcategory") {
-  allcategory()
-}else if (selectA.value == "allarea" && select.value != "allcategory"){
-  allAreas()
-}else{
-  selected ()
-}
+  else if (selectA.value != "allarea" && select.value == "allcategory") {
+    allcategory()
+  } else if (selectA.value == "allarea" && select.value != "allcategory") {
+    allAreas()
+  } else {
+    selected()
+  }
 
 });

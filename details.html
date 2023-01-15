@@ -33,8 +33,10 @@
 </head>
 
 <body>
+  <!-- nav  contains logo and 2 select input  -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid ">
+      <!-- logo  -->
       <a class="navbar-brand" id="logo">F<span>oo</span>dies</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,13 +44,16 @@
       </button>
     </div>
     <div class="container gap-3">
+       <!-- select with  Categories  -->
       <select id="selectCategory" class="form-select form-select-sm" aria-label=".form-select-sm example">
         <option value="allcategory" >ALL Category</option>
       </select>
+      <!-- select with area  -->
       <select id="selectArea" class="form-select form-select-sm" aria-label=".form-select-sm example">
         <option  value="allarea">ALL Area</option>
     
       </select>
+      <!-- filtration btn -->
       <button class="btn btn-outline-danger" id="filterbtn" type="submit">FILTRATION <i
           class="fa fa-heart-o"></i></button>
 
@@ -56,9 +61,8 @@
   </nav>
 
 
-  
+      <!-- strecture of the card  -->
   <div id="allcards" class="d-flex flex-wrap justify-content-center gap-5 mt-5">
-    <!-- strecture od the card  -->
     <!-- <div class="card  " style="width: 20rem;">
         <img src="Travel banner - Fait avec PosterMyWall.jpg" class="card-img-top" alt="...">
         <div class="card-body">
@@ -71,13 +75,14 @@
 
    <!--  modal -->
    <center>
-    <div class="modal fade  " id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade  modal-dialog-scrollable " id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
       aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+          <!-- the modal  is fill in js  -->
           <div id="modal" class="modal-body ">
           </div>
         </div>
@@ -85,7 +90,8 @@
     </div>
   </center>
 
-  <footer aria-label="Page navigation " cl>
+<!-- the footer contain pagination btn crat in js  -->
+  <footer aria-label="Page navigation " >
 
     <ul class="pagination d-flex flex-wrap  justify-content-center  mt-5" id="pagin-num"></ul>
 
