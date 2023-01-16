@@ -130,25 +130,30 @@ function fillmodel(data) {
   document.getElementById("modal").innerHTML = output;
 }
 //  4 pagination  functions -------------------------------------------> 
-// the max cards that alow to display in html page 
+// given a maximum number of items that can be displayed per page 
 const maxecards = 6;
-// this function contain a method thet retur the number of pages dicimale 
+// calculates the number of pages needed to display a certain number of items "arayvalues"
 function pagenumber(arayvalues) {
   const pagenumber = Math.ceil(arayvalues.length / maxecards);
+   //  by dividing the total number of items (arayvalues.length) by the maxecards of items per page
   return pagenumber;
+    // The result is returned as a variable 
 }
 
-// this function is the araay that contain the slices arays
+// on each iteration store the selice of araysvalues   in to another array allpages 
 function allpages(arayvalues) {
   const allpages = [];
   for (let i = 0; i < pagenumber(arayvalues); i++) {
     allpages.push(arayvalues.slice(i * maxecards, (i + 1) * maxecards));
+   
   }
+
   return allpages;
+  
 }
 //  creation the button for pagination 1,2...
 function btnpagination(arayvalues) {
-  let footer = document.getElementById("pagin1-num");
+  let footer = document.getElementById("pagin-num");
   footer.innerHTML = "";
   for (let i = 0; i < pagenumber(arayvalues); i++) {
     const li = document.createElement("li");
@@ -157,6 +162,7 @@ function btnpagination(arayvalues) {
     a.setAttribute("class", "page-link");
     a.innerHTML = i + 1;
     li.appendChild(a);
+    //  add event listener to the "a" element, which when clicked  removes the "active" class from all "li"
     a.addEventListener("click", () => {
       let activremov = document.querySelectorAll("li");
       activremov.forEach((e) => {
@@ -176,6 +182,7 @@ function displayPage(pagenumber, arayvalues) {
   const page = allpages(arayvalues)[pagenumber];
   for (const data of page) {
     creatcards(data);
+    //   create a card for each element data 
   }
 }
 
